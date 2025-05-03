@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PrintMerge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <nav class="shadow-md p-5 bg-white">
+      <div class="px-6 flex items-center space-x-2">
+        <img
+          src="https://img.icons8.com/ios-filled/50/000000/image.png"
+          alt="icon"
+          class="w-6 h-6"
+        />
+        <h1 class="text-xl font-semibold">PrintMerge</h1>
+      </div>
+    </nav>
+
+    <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="col-span-1">
+        <div
+          class="border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center justify-center bg-white shadow-sm"
+        >
+          <div class="text-4xl text-blue-500 mb-4">⬆️</div>
+          <h2 class="text-lg font-semibold mb-1">Upload your images</h2>
+          <p class="text-sm text-gray-500 text-center mb-4">
+            Drag and drop images here or click to browse<br />
+            Supports: JPG, PNG, GIF, WEBP
+          </p>
+          <input
+            type="file"
+            class="hidden"
+            id="uploadimg"
+            accept="images/*"
+            multiple
+          />
+          <button
+            id="uploadimgbtn"
+            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition ease-in-out duration-500"
+          >
+            Browse Files
+          </button>
+        </div>
+      </div>
+
+      <div class="col-span-2">
+        <div
+          class="bg-gray-100 rounded-xl p-6 h-full flex items-center justify-center text-gray-500"
+        >
+          <img src="" id="preview" alt="" />
+          <p id="previewTxt">Your preview will appear here</p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="./index.js"></script>
+</html>
