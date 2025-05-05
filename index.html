@@ -50,9 +50,10 @@
           class="flex items-center justify-center h-full p-6 text-gray-500 bg-gray-100 rounded-xl"
         >
           <div
-            class="grid justify-center grid-cols-3 place-items-center"
             id="previewimages"
+            class="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
           ></div>
+
           <p id="previewTxt">Your preview will appear here</p>
         </div>
         <div class="mt-4">
@@ -72,6 +73,20 @@
         <canvas id="mergeCanvas" class="hidden"></canvas>
       </div>
     </div>
+
+    <footer class="fixed bottom-0 w-screen bg-white border-gray-200">
+      <div
+        class="flex flex-col items-center justify-between px-4 py-6 mx-auto text-sm text-gray-600 max-w-7xl sm:flex-row"
+      >
+        <span class="font-semibold">&copy; 2025 PrintMerge</span>
+        <div class="flex items-center mt-2 space-x-1 sm:mt-0">
+          <span>Hand Crafted in</span>
+          <strong class="text-gray-800">Hyd, IND</strong>
+          <span>· Made with</span>
+          <span class="text-base text-red-500">❤️</span>
+        </div>
+      </div>
+    </footer>
   </body>
   <script src="./index.js"></script>
 </html>
