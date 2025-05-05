@@ -3,6 +3,7 @@ const uploadimgbtn = document.querySelector("#uploadimgbtn");
 const previewimg = document.querySelector("#preview");
 const preview = document.querySelector("#previewimages");
 const previewTxt = document.querySelector("#previewTxt");
+const disableBtn = document.querySelector("#disableBtn");
 
 uploadimgbtn.addEventListener("click", () => {
   uploadimg.click();
@@ -14,7 +15,7 @@ uploadimgbtn.addEventListener("click", () => {
       previewTxt.classList.add("hidden");
       const imgPreview = document.createElement("img");
       imgPreview.src = imgURL;
-      imgPreview.className = "w-52 h-52 object-cover m-2 rounded-md";
+      imgPreview.className = "object-cover m-2 rounded-md w-52 h-52";
       preview.appendChild(imgPreview);
     }
   });
@@ -57,4 +58,18 @@ downloadBtn.addEventListener("click", async () => {
   link.href = url;
   link.download = "image.png";
   link.click();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const files = uploadimg.files;
+  if (!files || files.length === 0) {
+    downloadBtn.disabled = true;
+    downloadBtn.classList.add("hidden");
+    disableBtn.classList.remove("hidden");
+  }
+});
+
+uploadimg.addEventListener("change", () => {
+  downloadBtn.classList.remove("hidden");
+  disableBtn.classList.add("hidden");
 });
