@@ -68,3 +68,6 @@ downloadBtn.addEventListener("click", async () => {
   link.download = "merged-image.png";
   link.click();
 });
+
+
+
