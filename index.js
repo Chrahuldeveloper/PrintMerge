@@ -9,9 +9,11 @@ const uploadbtnpdf = document.getElementById("uploadbtnpdf");
 const ctx = canvas.getContext("2d");
 const uploadImage = document.getElementById("uploadImage");
 const uploadPDF = document.getElementById("uploadPDF");
-
 const uploadpdf = document.getElementById("uploadpdf");
 const uploadpdfbtn = document.getElementById("uploadpdfbtn");
+const previewbox = document.getElementById("previewbox");
+
+const removeFile = () => {};
 
 const renderUi = (files) => {
   for (let file of files) {
@@ -23,6 +25,7 @@ const renderUi = (files) => {
       "flex items-center justify-between p-4 bg-white rounded-lg w-52";
     pTag.classList = "max-w-sm text-xs";
     iTag.classList = "fa-solid fa-xmark";
+    iTag.addEventListener("click", removeFile());
     divEle.appendChild(pTag);
     divEle.appendChild(iTag);
     preview.appendChild(divEle);
@@ -44,11 +47,13 @@ uploadpdfbtn.addEventListener("click", () => {
 
 uploadpdf.addEventListener("change", () => {
   const files = uploadpdf.files;
+  previewbox.classList.remove("hidden");
   renderUi(files);
 });
 
 uploadimg.addEventListener("change", () => {
   const files = uploadimg.files;
+  previewbox.classList.remove("hidden");
   renderUi(files);
 });
 
