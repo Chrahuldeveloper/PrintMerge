@@ -13,26 +13,7 @@ const uploadPDF = document.getElementById("uploadPDF");
 const uploadpdf = document.getElementById("uploadpdf");
 const uploadpdfbtn = document.getElementById("uploadpdfbtn");
 
-uploadimgbtn.addEventListener("click", () => {
-  uploadimg.click();
-});
-
-uploadpdfbtn.addEventListener("click", () => {
-  uploadpdf.click();
-});
-
-uploadimg.addEventListener("change", () => {
-  const files = uploadimg.files;
-
-  if (files.length === 0) {
-    downloadBtn.classList.add("hidden");
-    disableBtn.classList.remove("hidden");
-    return;
-  }
-
-  downloadBtn.classList.remove("hidden");
-  disableBtn.classList.add("hidden");
-
+const renderUi = (files) => {
   for (let file of files) {
     const divEle = document.createElement("div");
     const pTag = document.createElement("p");
@@ -46,6 +27,24 @@ uploadimg.addEventListener("change", () => {
     divEle.appendChild(iTag);
     preview.appendChild(divEle);
   }
+};
+
+uploadimgbtn.addEventListener("click", () => {
+  uploadimg.click();
+});
+
+uploadpdfbtn.addEventListener("click", () => {
+  uploadpdf.click();
+});
+
+uploadpdf.addEventListener("change", () => {
+  const files = uploadpdf.files;
+  renderUi(files);
+});
+
+uploadimg.addEventListener("change", () => {
+  const files = uploadimg.files;
+  renderUi(files);
 });
 
 downloadBtn.addEventListener("click", async () => {
