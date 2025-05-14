@@ -29,6 +29,11 @@ const renderUi = (files) => {
   }
 };
 
+const hideAndSeek = (Ele1, Ele2) => {
+  Ele1.classList.remove("hidden");
+  Ele2.classList.add("hidden");
+};
+
 uploadimgbtn.addEventListener("click", () => {
   uploadimg.click();
 });
@@ -87,8 +92,7 @@ uploadbtnimage.addEventListener("click", () => {
     uploadbtnpdf.classList.remove("bg-[#f1f5f9]");
   }
   uploadbtnimage.classList.add("bg-[#f1f5f9]");
-  uploadImage.classList.remove("hidden");
-  uploadPDF.classList.add("hidden");
+  hideAndSeek(uploadImage, uploadPDF);
 });
 
 uploadbtnpdf.addEventListener("click", () => {
@@ -96,6 +100,5 @@ uploadbtnpdf.addEventListener("click", () => {
     uploadbtnimage.classList.remove("bg-[#f1f5f9]");
   }
   uploadbtnpdf.classList.add("bg-[#f1f5f9]");
-  uploadPDF.classList.remove("hidden");
-  uploadImage.classList.add("hidden");
+  hideAndSeek(uploadPDF, uploadImage);
 });
