@@ -10,8 +10,15 @@ const ctx = canvas.getContext("2d");
 const uploadImage = document.getElementById("uploadImage");
 const uploadPDF = document.getElementById("uploadPDF");
 
+const uploadpdf = document.getElementById("uploadpdf");
+const uploadpdfbtn = document.getElementById("uploadpdfbtn");
+
 uploadimgbtn.addEventListener("click", () => {
   uploadimg.click();
+});
+
+uploadpdfbtn.addEventListener("click", () => {
+  uploadpdf.click();
 });
 
 uploadimg.addEventListener("change", () => {
