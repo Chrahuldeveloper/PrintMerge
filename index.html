@@ -1,79 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PrintMerge</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-  </head>
-  <body class="text-gray-800 bg-gray-50">
-    <nav class="p-5 bg-white shadow-md">
-      <div class="flex items-center px-6 space-x-2">
-        <img
-          src="https://img.icons8.com/ios-filled/50/000000/image.png"
-          alt="icon"
-          class="w-6 h-6"
-        />
-        <h1 class="text-xl font-semibold">PrintMerge</h1>
-      </div>
-    </nav>
 
-    <div class="p-6">
-      <div class="w-[70vw] mx-auto">
-        <div
-          class="flex flex-col md:w-[70vw] w-[90vw] mx-auto items-center justify-center p-6 bg-[#f7f8f8] hover:bg-[#e3f3f7] ease-in-out duration-500 cursor-pointer border-2 border-gray-300 border-dashed shadow-sm rounded-xl"
-        >
-          <div class="mb-4 text-4xl text-blue-500">⬆️</div>
-          <h2 class="mb-4 text-lg font-semibold">Upload your images</h2>
-          <p class="mb-4 text-sm text-center text-gray-500">
-            Supports: JPG, PNG, GIF, WEBP
-          </p>
-          <input
-            type="file"
-            class="hidden"
-            id="uploadimg"
-            accept="images/*"
-            multiple
-          />
-          <button
-            id="uploadimgbtn"
-            class="px-4 py-2 text-[#33c3f0]"
-          >
-            Browse Files
-          </button>
-        </div>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrintMerge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://kit.fontawesome.com/51895500cf.js" crossorigin="anonymous"></script>
+</head>
 
-      <div class="md:w-[70vw] w-[90vw] mx-auto">
-        <div
-          class="flex items-center justify-center py-20 text-gray-500 bg-gray-100 rounded-xl border-[1px] border-gray-300 my-5"
-        >
-          <div
-            id="previewimages"
-            class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-          ></div>
-          <p id="previewTxt" class="text-center">
-            Your preview will appear here
-          </p>
-        </div>
-        <div class="flex flex-col justify-center mt-4">
-          <button
-            id="downloadBtn"
-            class="w-56 mx-auto px-4 py-2 text-white transition bg-[#33c3f0] rounded shadow-2xl shadow-gray-500 "
-          >
-            Download Merged Image
-          </button>
-          <button
-            id="disableBtn"
-            class="hidden px-4 py-2 text-white transition rounded bg-[#33c3f0] "
-          >
-            Download Merged Image
-          </button>
-        </div>
-        <canvas id="mergeCanvas" class="hidden"></canvas>
+<body class="text-gray-800 bg-gray-50">
+  <nav class="p-5 bg-white shadow-md">
+    <div class="flex items-center px-6 space-x-2">
+      <img src="https://img.icons8.com/ios-filled/50/000000/image.png" alt="icon" class="w-6 h-6" />
+      <h1 class="text-xl font-semibold">PrintMerge</h1>
+    </div>
+  </nav>
+
+  <div class="p-6">
+    <div class="w-[70vw] mx-auto">
+      <div class="flex items-center justify-center my-6 space-x-4">
+        <button id="uploadbtnimage" class=" px-8 py-2.5 rounded-lg text-gray-800 font-semibold text-sm flex items-center gap-3  transition-colors ease-in-out duration-300">
+          <i class="fa-solid fa-image"></i>
+          <h2>
+          Images 
+          </h1>
+        </button>
+        <button id="uploadbtnpdf" class=" px-8 py-2.5 rounded-lg text-gray-800 font-semibold text-sm flex items-center gap-3 transition-colors ease-in-out duration-300">
+          <i class="fa-solid fa-file-pdf"></i>
+          <h2>
+            Pdf
+          </h2>
+        </button>
+      </div>
+      
+     <div
+     id="uploadImage"
+     class="block"
+     >
+
+       <div
+       class="flex flex-col md:w-[70vw] w-[90vw] mx-auto items-center justify-center p-6 bg-[#f7f8f8] hover:bg-[#e3f3f7] ease-in-out duration-500 cursor-pointer border-2 border-gray-300 border-dashed shadow-sm rounded-xl">
+       <div class="mb-4 p-5 text-4xl text-[#33c3f0] bg-[#e3f3f7] w-14 h-14 rounded-full flex items-center justify-center"><i class="fa-solid fa-image"></i></div>
+        <h2 class="mb-4 text-lg font-semibold">Upload your images</h2>
+        <p class="mb-4 text-sm text-center text-gray-500">
+          Supports: JPG, PNG, GIF, WEBP
+        </p>
+        <input type="file" class="hidden" id="uploadimg" accept="images/*" multiple />
+        <button id="uploadimgbtn" class="px-4 py-2 text-[#33c3f0]">
+          Browse Files
+        </button>
       </div>
     </div>
-  </body>
-  <script src="./index.js"></script>
+  </div>
+
+  <div
+    id="uploadPDF" 
+    class="hidden"
+  >
+    <div 
+    class="flex flex-col md:w-[70vw] w-[90vw] mx-auto items-center  justify-center p-6 bg-[#f7f8f8] hover:bg-[#e3f3f7] ease-in-out duration-500 cursor-pointer border-2 border-gray-300 border-dashed shadow-sm rounded-xl">
+        <div class="mb-4 text-4xl bg-[#e3f3f7] text-[#33c3f0] w-16 h-16 rounded-full flex items-center justify-center"><i class="fa-solid fa-file-pdf"></i></div>
+        <h2 class="mb-4 text-lg font-semibold">Drag & drop your PDFs here</h2>
+        <p class="mb-4 text-sm text-center text-gray-500">
+         Support for PDF files only
+        </p>
+        <input type="file" class="hidden" id="uploadimg" accept="pdf/*" multiple />
+        <button id="uploadimgbtn" class="px-4 py-2 text-[#33c3f0]">
+          Browse Files
+        </button>
+      </div>
+    </div>
+    </div>
+
+    <div class="md:w-[70vw] w-[90vw] mx-auto">
+      <div class="py-4 my-5 text-gray-500 bg-gray-100 border border-gray-300 rounded-xl">
+        <div id="previewimages" class="p-7">
+          <div class="flex items-center justify-between p-4 bg-white rounded-lg w-52">
+            <p class="max-w-sm text-xs">fileNasme</p>
+            <i class="fa-solid fa-xmark"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center mt-4">
+        <button id="downloadBtn"
+          class="w-56 mx-auto px-4 py-2 text-white transition bg-[#33c3f0] rounded shadow-2xl shadow-gray-500">
+          Download Merged Image
+        </button>
+        <button id="disableBtn" class="hidden px-4 py-2 text-white transition rounded bg-[#33c3f0]">
+          Download Merged Image
+        </button>
+      </div>
+      <canvas id="mergeCanvas" class="hidden"></canvas>
+    </div>
+
+</body>
+<script src="./index.js"></script>
+
 </html>
