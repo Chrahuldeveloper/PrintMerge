@@ -14,8 +14,6 @@ const previewbox = document.getElementById("previewbox");
 const downloadBtn = document.getElementById("downloadBtn");
 const downloadpdfBtn = document.getElementById("downloadpdfBtn");
 
-
-
 const renderUi = (files) => {
   for (let file of files) {
     const divEle = document.createElement("div");
@@ -49,12 +47,14 @@ uploadpdf.addEventListener("change", () => {
   const files = uploadpdf.files;
   previewbox.classList.remove("hidden");
   renderUi(files);
+  downloadpdfBtn.classList.remove("hidden");
 });
 
 uploadimg.addEventListener("change", () => {
   const files = uploadimg.files;
   previewbox.classList.remove("hidden");
   renderUi(files);
+  downloadBtn.classList.remove("hidden");
 });
 
 downloadBtn.addEventListener("click", async () => {
@@ -112,8 +112,6 @@ downloadpdfBtn.addEventListener("click", async () => {
   const files = uploadpdf.files;
   if (files.length === 0) return alert("Upload PDFs first!");
 
-  console.log("loading...")
-
   const mergedPdf = await PDFLib.PDFDocument.create();
 
   for (const file of files) {
@@ -134,5 +132,4 @@ downloadpdfBtn.addEventListener("click", async () => {
   link.href = url;
   link.download = "merged.pdf";
   link.click();
-    console.log("done...")
 });
