@@ -1,7 +1,6 @@
 const uploadimg = document.querySelector("#uploadimg");
 const uploadimgbtn = document.querySelector("#uploadimgbtn");
-const preview = document.querySelector("#previewimages");
-const previewTxt = document.querySelector("#previewTxt");
+const preview = document.getElementById("previewimages");
 const disableBtn = document.querySelector("#disableBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 const canvas = document.getElementById("mergeCanvas");
@@ -17,26 +16,27 @@ uploadimgbtn.addEventListener("click", () => {
 
 uploadimg.addEventListener("change", () => {
   const files = uploadimg.files;
-  preview.innerHTML = "";
 
   if (files.length === 0) {
-    previewTxt.classList.remove("hidden");
     downloadBtn.classList.add("hidden");
     disableBtn.classList.remove("hidden");
     return;
   }
 
-  previewTxt.classList.add("hidden");
   downloadBtn.classList.remove("hidden");
   disableBtn.classList.add("hidden");
 
   for (let file of files) {
     const divEle = document.createElement("div");
     const pTag = document.createElement("p");
+    const iTag = document.createElement("i");
     pTag.innerHTML = file.name;
     divEle.classList =
-      "px-8 py-2.5 rounded-lg shadow-xl shadow-gray-800 cursor-pointer text-sm w-28 bg-white";
+      "flex items-center justify-between p-4 bg-white rounded-lg w-52";
+    pTag.classList = "max-w-sm text-xs";
+    iTag.classList = "fa-solid fa-xmark";
     divEle.appendChild(pTag);
+    divEle.appendChild(iTag);
     preview.appendChild(divEle);
   }
 });
