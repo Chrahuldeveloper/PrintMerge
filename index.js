@@ -2,7 +2,6 @@ const uploadimg = document.querySelector("#uploadimg");
 const uploadimgbtn = document.querySelector("#uploadimgbtn");
 const preview = document.getElementById("previewimages");
 const disableBtn = document.querySelector("#disableBtn");
-const downloadBtn = document.getElementById("downloadBtn");
 const canvas = document.getElementById("mergeCanvas");
 const uploadbtnimage = document.getElementById("uploadbtnimage");
 const uploadbtnpdf = document.getElementById("uploadbtnpdf");
@@ -12,8 +11,10 @@ const uploadPDF = document.getElementById("uploadPDF");
 const uploadpdf = document.getElementById("uploadpdf");
 const uploadpdfbtn = document.getElementById("uploadpdfbtn");
 const previewbox = document.getElementById("previewbox");
+const downloadBtn = document.getElementById("downloadBtn");
+const downloadpdfBtn = document.getElementById("downloadpdfBtn");
 
-const removeFile = () => {};
+
 
 const renderUi = (files) => {
   for (let file of files) {
@@ -25,7 +26,6 @@ const renderUi = (files) => {
       "flex items-center justify-between p-4 bg-white rounded-lg w-52";
     pTag.classList = "max-w-sm text-xs";
     iTag.classList = "fa-solid fa-xmark";
-    iTag.addEventListener("click", removeFile());
     divEle.appendChild(pTag);
     divEle.appendChild(iTag);
     preview.appendChild(divEle);
@@ -106,4 +106,33 @@ uploadbtnpdf.addEventListener("click", () => {
   }
   uploadbtnpdf.classList.add("bg-[#f1f5f9]");
   hideAndSeek(uploadPDF, uploadImage);
+});
+
+downloadpdfBtn.addEventListener("click", async () => {
+  const files = uploadpdf.files;
+  if (files.length === 0) return alert("Upload PDFs first!");
+
+  console.log("loading...")
+
+  const mergedPdf = await PDFLib.PDFDocument.create();
+
+  for (const file of files) {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+
+    copiedPages.forEach((page) => {
+      mergedPdf.addPage(page);
+    });
+  }
+
+  const mergedPdfBytes = await mergedPdf.save();
+  const blob = new Blob([mergedPdfBytes], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "merged.pdf";
+  link.click();
+    console.log("done...")
 });
