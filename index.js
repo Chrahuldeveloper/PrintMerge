@@ -14,20 +14,39 @@ const previewbox = document.getElementById("previewbox");
 const downloadBtn = document.getElementById("downloadBtn");
 const downloadpdfBtn = document.getElementById("downloadpdfBtn");
 
-const renderUi = (files) => {
-  for (let file of files) {
+let imageFiles = [];
+let pdfFiles = [];
+
+const renderUi = (files, type) => {
+  preview.innerHTML = "";
+
+  files.forEach((file, index) => {
     const divEle = document.createElement("div");
     const pTag = document.createElement("p");
     const iTag = document.createElement("i");
+
     pTag.innerHTML = file.name;
     divEle.classList =
       "flex items-center justify-between p-4 bg-white rounded-lg w-52";
     pTag.classList = "max-w-sm text-xs";
-    iTag.classList = "fa-solid fa-xmark";
+    iTag.classList = "fa-solid fa-xmark cursor-pointer";
+
+    iTag.addEventListener("click", () => {
+      if (type === "image") {
+        imageFiles.splice(index, 1);
+        renderUi(imageFiles, "image");
+        if (imageFiles.length === 0) downloadBtn.classList.add("hidden");
+      } else if (type === "pdf") {
+        pdfFiles.splice(index, 1);
+        renderUi(pdfFiles, "pdf");
+        if (pdfFiles.length === 0) downloadpdfBtn.classList.add("hidden");
+      }
+    });
+
     divEle.appendChild(pTag);
     divEle.appendChild(iTag);
     preview.appendChild(divEle);
-  }
+  });
 };
 
 const hideAndSeek = (Ele1, Ele2) => {
@@ -43,26 +62,25 @@ uploadpdfbtn.addEventListener("click", () => {
   uploadpdf.click();
 });
 
-uploadpdf.addEventListener("change", () => {
-  const files = uploadpdf.files;
-  previewbox.classList.remove("hidden");
-  renderUi(files);
-  downloadpdfBtn.classList.remove("hidden");
-});
-
 uploadimg.addEventListener("change", () => {
-  const files = uploadimg.files;
+  imageFiles = Array.from(uploadimg.files);
   previewbox.classList.remove("hidden");
-  renderUi(files);
+  renderUi(imageFiles, "image");
   downloadBtn.classList.remove("hidden");
 });
 
+uploadpdf.addEventListener("change", () => {
+  pdfFiles = Array.from(uploadpdf.files);
+  previewbox.classList.remove("hidden");
+  renderUi(pdfFiles, "pdf");
+  downloadpdfBtn.classList.remove("hidden");
+});
+
 downloadBtn.addEventListener("click", async () => {
-  const files = uploadimg.files;
-  if (files.length === 0) return alert("Upload images first!");
+  if (imageFiles.length === 0) return alert("Upload images first!");
 
   const images = await Promise.all(
-    Array.from(files).map((file) => {
+    imageFiles.map((file) => {
       return new Promise((resolve) => {
         const img = new Image();
         img.onload = () => resolve(img);
@@ -92,29 +110,12 @@ downloadBtn.addEventListener("click", async () => {
   link.click();
 });
 
-uploadbtnimage.addEventListener("click", () => {
-  if (uploadbtnpdf.classList.contains("bg-[#f1f5f9]")) {
-    uploadbtnpdf.classList.remove("bg-[#f1f5f9]");
-  }
-  uploadbtnimage.classList.add("bg-[#f1f5f9]");
-  hideAndSeek(uploadImage, uploadPDF);
-});
-
-uploadbtnpdf.addEventListener("click", () => {
-  if (uploadbtnimage.classList.contains("bg-[#f1f5f9]")) {
-    uploadbtnimage.classList.remove("bg-[#f1f5f9]");
-  }
-  uploadbtnpdf.classList.add("bg-[#f1f5f9]");
-  hideAndSeek(uploadPDF, uploadImage);
-});
-
 downloadpdfBtn.addEventListener("click", async () => {
-  const files = uploadpdf.files;
-  if (files.length === 0) return alert("Upload PDFs first!");
+  if (pdfFiles.length === 0) return alert("Upload PDFs first!");
 
   const mergedPdf = await PDFLib.PDFDocument.create();
 
-  for (const file of files) {
+  for (const file of pdfFiles) {
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
     const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
@@ -132,4 +133,20 @@ downloadpdfBtn.addEventListener("click", async () => {
   link.href = url;
   link.download = "merged.pdf";
   link.click();
+});
+
+uploadbtnimage.addEventListener("click", () => {
+  if (uploadbtnpdf.classList.contains("bg-[#f1f5f9]")) {
+    uploadbtnpdf.classList.remove("bg-[#f1f5f9]");
+  }
+  uploadbtnimage.classList.add("bg-[#f1f5f9]");
+  hideAndSeek(uploadImage, uploadPDF);
+});
+
+uploadbtnpdf.addEventListener("click", () => {
+  if (uploadbtnimage.classList.contains("bg-[#f1f5f9]")) {
+    uploadbtnimage.classList.remove("bg-[#f1f5f9]");
+  }
+  uploadbtnpdf.classList.add("bg-[#f1f5f9]");
+  hideAndSeek(uploadPDF, uploadImage);
 });
