@@ -73,7 +73,7 @@ downloadBtn.addEventListener("click", async () => {
 
   const cols = 3;
   const rows = Math.ceil(images.length / cols);
-  const imgWidth = 600;
+  const imgWidth = 800;
   const imgHeight = 600;
 
   canvas.width = cols * imgWidth;
